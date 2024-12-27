@@ -1,4 +1,6 @@
 import 'package:flutter_api_1/model/user.dart';
+import 'package:flutter_api_1/model/user_dob.dart';
+import 'package:flutter_api_1/model/user_location.dart';
 import 'package:flutter_api_1/model/user_name.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,6 +19,31 @@ class UserApi{
       first: e['name']['first'], 
       last: e['name']['last'], 
     );  
+    final dob = UserDob(
+      date: DateTime.parse(e['dob']['date']),
+      age: e['dob']['age'],
+    );
+    final coordinates = LocationCoordinate(
+      latitude: e['location']['coordinates']['latitude'],
+      longitude: e['location']['coordinates']['longitude'],
+    );
+    final timezone = LocationTimezone(
+      offset: e['location']['timezone']['offset'],
+      description: e['location']['timezone']['description'],
+    );
+    final street = LocationStreet(
+      number: e['location']['street']['number'],
+      name: e['location']['street']['name'],
+    );
+    final location = UserLocation(
+      city: e['location']['city'],
+      state: e['location']['state'],
+      country: e['location']['country'],
+      postcode: e['location']['postcode'].toString(),
+      street: street,
+      coordinates: coordinates,
+      timezone: timezone,
+    );
 
     return User(
       cell: e['cell'],
@@ -25,6 +52,8 @@ class UserApi{
       nat: e['nat'],
       phone: e['phone'],
       name: name,
+      dob: dob,
+      location: location,
     );
     }).toList();
     return users;
