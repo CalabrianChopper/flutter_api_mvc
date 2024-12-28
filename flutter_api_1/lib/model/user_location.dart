@@ -1,5 +1,3 @@
-import 'package:flutter_api_1/model/user.dart';
-
 class UserLocation{
   final String city;
   final String state;
